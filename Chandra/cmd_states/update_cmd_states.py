@@ -192,7 +192,7 @@ def delete_cmd_states(datestart, db, h5):
     # been initialized with cmd_states data.
     if h5 and hasattr(h5.root, 'data'):
         h5d = h5.root.data
-        idxs = h5d.getWhereList("datestart >= '{}'".format(datestart))
+        idxs = h5d.get_where_list("datestart >= '{}'".format(datestart))
 
         # Be paranoid and do a couple of consistency checks here because we
         # are always deleting from a row index to the end of the table.
@@ -219,7 +219,7 @@ def delete_cmd_states(datestart, db, h5):
             logging.info('update_states_db: '
                          'removed HDF5 cmd_states rows from {} to {}'
                          .format(idxs[0], h5d.nrows - 1))
-            h5d.removeRows(idxs[0], h5d.nrows)
+            h5d.remove_rows(idxs[0], h5d.nrows)
         else:
             # Remove all rows from file.  HDF5 cannot support this so just
             # issue a non-fatal error that will generate a warning email.
@@ -284,7 +284,7 @@ def make_hdf5_cmd_states(db, h5):
     rows = np.empty(len(db_rows), dtype=CMD_STATES_DTYPE)
     for name in rows.dtype.names:
         rows[name][:] = db_rows[name]
-    h5.createTable(h5.root, 'data', rows,
+    h5.create_table(h5.root, 'data', rows,
                    "Cmd_states", expectedrows=5e5)
     h5.flush()
     logging.info('HDF5 cmd_states table successfully created')

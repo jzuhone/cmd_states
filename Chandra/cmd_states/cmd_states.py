@@ -266,6 +266,9 @@ def get_states(state0, cmds, exclude=None):
             elif re.match(r'X(T|C)Z0000005', tlmsid):
                 add_trans(clocking=1, power_cmd=tlmsid)
 
+            elif re.match(r'WSFTNEG*', tlmsid):
+                add_trans(power_cmd=tlmsid)
+
             elif tlmsid == 'WSVIDALLDN':
                 add_trans(vid_board=0, ccd_count=0,
                           power_cmd=tlmsid)
